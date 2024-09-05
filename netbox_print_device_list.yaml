@@ -1,0 +1,15 @@
+---
+- name: Playbook to interact with NetBox
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Retrieve devices from NetBox
+      netbox.netbox.netbox_device:
+        netbox_url: "https://mnqh6527.cloud.netboxapp.com/"
+        netbox_token: "7e1c591e544353bedaeba2fdca5309ff16dfe268"
+        validate_certs: no
+      register: devices
+
+    - name: Print device list
+      debug:
+        msg: "{{ devices }}"
