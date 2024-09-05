@@ -1,22 +1,25 @@
 ---
-- name: Retrieve device details from NetBox
+- name: Playbook to interact with NetBox
   hosts: localhost
   gather_facts: no
-  collections:
-    - netbox.netbox
-
-  vars:
-    netbox_url: "https://mnqh6527.cloud.netboxapp.com/"
-    netbox_token: "7e1c591e544353bedaeba2fdca5309ff16dfe268"
-
   tasks:
-    - name: Retrieve a device by name
-      netbox.netbox.netbox_device:
-        api_url: "{{ netbox_url }}"
-        api_token: "{{ netbox_token }}"
-        name: "NLAMS01-SW-1"  # Replace with the actual device name
-      register: device_info
-
-    - name: Display device information
+    # query a list of devices
+    - name: Obtain list of devices from NetBox
       debug:
-        msg: "{{ device_info }}"
+        msg: >
+          "Device {{ item.value.display_name }} (ID: {{ item.key }}) was
+          manufactured by {{ item.value.device_type.manufacturer.name }}"
+      loop: "{{ query('netbox.netbox.nb_lookup', 'devices',
+                      api_endpoint='https://mnqh6527.cloud.netboxapp.com/',
+                      token='7e1c591e544353bedaeba2fdca5309ff16dfe268') }}"
+
+      # This example uses an API Filter
+    - name: Obtain list of devices from NetBox
+      debug:
+        msg: >
+          "Device {{ item.value.display_name }} (ID: {{ item.key }}) was
+          manufactured by {{ item.value.device_type.manufacturer.name }}"
+      loop: "{{ query('netbox.netbox.nb_lookup', 'devices',
+                      api_endpoint='https://mnqh6527.cloud.netboxapp.com/',
+                      api_filter='role=management tag=Dell'),
+                      token='7e1c591e544353bedaeba2fdca5309ff16dfe268') }}"
