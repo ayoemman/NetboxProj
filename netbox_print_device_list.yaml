@@ -1,9 +1,4 @@
 ---
-import pynetbox
-nb = pynetbox.api(
-    'https://mnqh6527.cloud.netboxapp.com/',
-    token='7e1c591e544353bedaeba2fdca5309ff16dfe268'
-)
 - name: Playbook to interact with NetBox
   hosts: localhost
   gather_facts: no
