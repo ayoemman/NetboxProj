@@ -4,7 +4,18 @@
   gather_facts: no
   collections:
     - netbox.netbox
+    
   tasks:
+    - name: Test netbox_aggregate
+      netbox.netbox.netbox_aggregate:
+        server_url: "https://mnqh6527.cloud.netboxapp.com/"
+        token: "7e1c591e544353bedaeba2fdca5309ff16dfe268"
+      register: result
+
+    - name: Print result
+      debug:
+        var: result
+
     - name: Create aggregate within NetBox with only required information
       netbox.netbox.netbox_aggregate:
         netbox_url: https://mnqh6527.cloud.netboxapp.com/
