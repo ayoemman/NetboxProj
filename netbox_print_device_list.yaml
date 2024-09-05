@@ -11,7 +11,7 @@
           manufactured by {{ item.value.device_type.manufacturer.name }}"
       loop: "{{ query('netbox.netbox.nb_lookup', 'devices',
                       api_endpoint='https://mnqh6527.cloud.netboxapp.com/',
-                      token='<redacted>') }}"
+                      token='7e1c591e544353bedaeba2fdca5309ff16dfe268') }}"
 
       # This example uses an API Filter
     - name: Obtain list of devices from NetBox
@@ -22,4 +22,4 @@
       loop: "{{ query('netbox.netbox.nb_lookup', 'devices',
                       api_endpoint='https://mnqh6527.cloud.netboxapp.com/',
                       api_filter='role=management tag=Dell'),
-                      token='<redacted>') }}"
+                      token='7e1c591e544353bedaeba2fdca5309ff16dfe268') }}"
