@@ -2,25 +2,24 @@
 - name: Playbook to interact with NetBox
   hosts: localhost
   gather_facts: no
-  collections:
-    - netbox.netbox
-    
   tasks:
-    - name: Test netbox_aggregate
-      netbox.netbox.netbox_aggregate:
-        server_url: "https://mnqh6527.cloud.netboxapp.com/"
-        token: "7e1c591e544353bedaeba2fdca5309ff16dfe268"
-      register: result
-
-    - name: Print result
+    # query a list of devices
+    - name: Obtain list of devices from NetBox
       debug:
-        var: result
+        msg: >
+          "Device {{ item.value.display_name }} (ID: {{ item.key }}) was
+          manufactured by {{ item.value.device_type.manufacturer.name }}"
+      loop: "{{ query('netbox.netbox.nb_lookup', 'devices',
+                      api_endpoint='https://mnqh6527.cloud.netboxapp.com/',
+                      token='7e1c591e544353bedaeba2fdca5309ff16dfe268') }}"
 
-    - name: Create aggregate within NetBox with only required information
-      netbox.netbox.netbox_aggregate:
-        netbox_url: https://mnqh6527.cloud.netboxapp.com/
-        netbox_token: 7e1c591e544353bedaeba2fdca5309ff16dfe268
-        data:
-          prefix: http://10.0.0.10/26
-          rir: Test RIR
-        state: present
+      # This example uses an API Filter
+    - name: Obtain list of devices from NetBox
+      debug:
+        msg: >
+          "Device {{ item.value.display_name }} (ID: {{ item.key }}) was
+          manufactured by {{ item.value.device_type.manufacturer.name }}"
+      loop: "{{ query('netbox.netbox.nb_lookup', 'devices',
+                      api_endpoint='https://mnqh6527.cloud.netboxapp.com/',
+                      api_filter='role=management tag=Dell'),
+                      token='7e1c591e544353bedaeba2fdca5309ff16dfe268') }}"
