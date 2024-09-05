@@ -1,9 +1,11 @@
 ---
 - name: Playbook to interact with NetBox
   hosts: localhost
-  gather_facts: no
+  gather_facts: yes
+  collections:
+    - netbox.netbox
   tasks:
-    # query a list of devices
+  # query a list of devices
     - name: Obtain list of devices from NetBox
       debug:
         msg: >
