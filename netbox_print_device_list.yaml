@@ -3,23 +3,19 @@
   hosts: localhost
   gather_facts: no
   tasks:
-    # query a list of devices
+    # Query a list of devices
     - name: Obtain list of devices from NetBox
-      debug:
-        msg: >
-          "Device {{ item.value.display_name }} (ID: {{ item.key }}) was
-          manufactured by {{ item.value.device_type.manufacturer.name }}"
-      loop: "{{ query('netbox.netbox.nb_lookup', 'devices',
-                      api_endpoint='https://mnqh6527.cloud.netboxapp.com/',
-                      token='7e1c591e544353bedaeba2fdca5309ff16dfe268') }}"
+      netbox.netbox.netbox_device:
+        api_endpoint: 'https://mnqh6527.cloud.netboxapp.com/'
+        token: '7e1c591e544353bedaeba2fdca5309ff16dfe268'
+        filter:
+          role: management
+          tag: Dell
+      register: devices_result
 
-      # This example uses an API Filter
-    - name: Obtain list of devices from NetBox
+    - name: Display devices
       debug:
         msg: >
-          "Device {{ item.value.display_name }} (ID: {{ item.key }}) was
-          manufactured by {{ item.value.device_type.manufacturer.name }}"
-      loop: "{{ query('netbox.netbox.nb_lookup', 'devices',
-                      api_endpoint='https://mnqh6527.cloud.netboxapp.com/',
-                      api_filter='role=management tag=Dell'),
-                      token='7e1c591e544353bedaeba2fdca5309ff16dfe268') }}"
+          "Device {{ item.display_name }} (ID: {{ item.id }}) was
+          manufactured by {{ item.device_type.manufacturer.name }}"
+      loop: "{{ devices_result.devices }}"
