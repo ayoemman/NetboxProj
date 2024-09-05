@@ -1,15 +1,25 @@
----
+ ---
 - name: Playbook to interact with NetBox
   hosts: 10.0.0.10
   gather_facts: no
   tasks:
-    - name: Retrieve devices from NetBox
-      netbox.netbox.netbox_device:
-        netbox_url: "https://mnqh6527.cloud.netboxapp.com/"
-        netbox_token: "7e1c591e544353bedaeba2fdca5309ff16dfe268"
-        validate_certs: no
-      register: devices
-
-    - name: Print device list
+    # query a list of devices
+    - name: Obtain list of devices from NetBox
       debug:
-        msg: "{{ devices }}"
+        msg: >
+          "Device {{ item.value.display_name }} (ID: {{ item.key }}) was
+          manufactured by {{ item.value.device_type.manufacturer.name }}"
+      loop: "{{ query('netbox.netbox.nb_lookup', 'devices',
+                      api_endpoint='https://mnqh6527.cloud.netboxapp.com/',
+                      token='<redacted>') }}"
+
+      # This example uses an API Filter
+    - name: Obtain list of devices from NetBox
+      debug:
+        msg: >
+          "Device {{ item.value.display_name }} (ID: {{ item.key }}) was
+          manufactured by {{ item.value.device_type.manufacturer.name }}"
+      loop: "{{ query('netbox.netbox.nb_lookup', 'devices',
+                      api_endpoint='https://mnqh6527.cloud.netboxapp.com/',
+                      api_filter='role=management tag=Dell'),
+                      token='<redacted>') }}"
