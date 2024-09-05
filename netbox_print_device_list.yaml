@@ -1,6 +1,6 @@
 ---
 - name: Playbook to interact with NetBox
-  hosts: 10.0.0.10
+  hosts: localhost
   gather_facts: no
   tasks:
     # query a list of devices
