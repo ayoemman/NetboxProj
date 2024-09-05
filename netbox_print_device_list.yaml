@@ -1,6 +1,6 @@
 ---
 - name: Playbook to interact with NetBox
-  hosts: localhost
+  hosts: aap.manny.local
   gather_facts: no
   tasks:
     # query a list of devices
