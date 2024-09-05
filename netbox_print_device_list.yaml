@@ -3,19 +3,12 @@
   hosts: localhost
   gather_facts: no
   tasks:
-    # Query a list of devices
+    # query a list of devices
     - name: Obtain list of devices from NetBox
-      netbox.netbox.netbox_device:
-        api_endpoint: 'https://mnqh6527.cloud.netboxapp.com/'
-        token: '7e1c591e544353bedaeba2fdca5309ff16dfe268'
-        filter:
-          role: management
-          tag: Dell
-      register: devices_result
-
-    - name: Display devices
       debug:
         msg: >
-          "Device {{ item.display_name }} (ID: {{ item.id }}) was
-          manufactured by {{ item.device_type.manufacturer.name }}"
-      loop: "{{ devices_result.devices }}"
+          "Device {{ item.value.display_name }} (ID: {{ item.key }}) was
+          manufactured by {{ item.value.device_type.manufacturer.name }}"
+      loop: "{{ query('netbox.netbox.nb_lookup', 'devices',
+                      api_endpoint='https://mnqh6527.cloud.netboxapp.com/',
+                      token='7e1c591e544353bedaeba2fdca5309ff16dfe268') }}"
