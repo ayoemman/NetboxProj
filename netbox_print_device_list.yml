@@ -1,27 +1,10 @@
 ---
-- name: Lookup NetBox Device Data Based on Role
-  hosts: localhost
-  gather_facts: no
+plugin: netbox.netbox.nb_inventory
+validate_certs: False
+group_by:
+ - device_roles
+ - sites
 
-  vars:
-    netbox_url: "{{ lookup('ansible.builtin.env', 'NETBOX_API') }}"
-    netbox_token: "{{ lookup('ansible.builtin.env', 'NETBOX_TOKEN') }}"
-
-  tasks:
-  - name: Install pynetbox
-      pip:
-        name: pynetbox
-        state: present
-    
-  - name: List installed Python packages
-      command: pip list
-      register: pip_list
-    - debug:
-        var: pip_list.stdout_lines
-        
-  - name: "Query NetBox for all sites"
-    debug:
-      msg: >
-        "Device {{ item.value.name }} (ID: {{ item.key }}) was
-        manufactured by {{ item.value.device_type.manufacturer.name }}"
-    loop: "{{ query('netbox.netbox.nb_lookup', 'devices', api_filter='role=firewall', api_endpoint=netbox_url, token=netbox_token)}}"
+ # vars:
+    #netbox_url: "{{ lookup('ansible.builtin.env', 'NETBOX_API') }}"
+    #netbox_token: "{{ lookup('ansible.builtin.env', 'NETBOX_TOKEN') }}"
