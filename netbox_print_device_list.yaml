@@ -3,6 +3,11 @@
   hosts: aap.manny.local
   gather_facts: no
   tasks:
+    - name: Install pynetbox if not already installed
+      pip:
+        name: pynetbox
+        state: present
+        
     # query a list of devices
     - name: Obtain list of devices from NetBox
       debug:
