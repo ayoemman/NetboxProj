@@ -2,13 +2,17 @@
 - name: Playbook to interact with NetBox
   hosts: aap
   gather_facts: no
+  vars:
+    netbox_url: "https://mnqh6527.cloud.netboxapp.com"
+    netbox_token: "7e1c591e544353bedaeba2fdca5309ff16dfe268"
+    config_file_path: "/tmp/config_file.txt
 
   tasks:
   - name: Get device configurations from NetBox
     uri:
-      url: "{{ NETBOX_API }}dcim/devices/"
+      url: "{{ netbox_url }}dcim/devices/"
       method: GET
       headers:
-        Authorization: "Token {{ NETBOX_TOKEN }}"
+        Authorization: "Token {{ netbox_token }}"
       return_content: yes
     register: netbox_response
