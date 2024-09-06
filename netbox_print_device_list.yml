@@ -8,7 +8,17 @@
     netbox_token: "{{ lookup('ansible.builtin.env', 'NETBOX_TOKEN') }}"
 
   tasks:
-
+  - name: Install pynetbox
+      pip:
+        name: pynetbox
+        state: present
+    
+  - name: List installed Python packages
+      command: pip list
+      register: pip_list
+    - debug:
+        var: pip_list.stdout_lines
+        
   - name: "Query NetBox for all sites"
     debug:
       msg: >
