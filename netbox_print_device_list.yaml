@@ -1,6 +1,6 @@
 ---
 - name: Playbook to interact with NetBox
-  hosts: aap.manny.local
+  hosts: aap
   gather_facts: no
   tasks:
     - name: Install pynetbox if not already installed
