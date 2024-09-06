@@ -1,18 +1,17 @@
 ---
-- name: Playbook to interact with NetBox
-  hosts: aap
+- name: Lookup NetBox Device Data Based on Role
+  hosts: localhost
   gather_facts: no
+
   vars:
-    netbox_url: "https://mnqh6527.cloud.netboxapp.com"
-    netbox_token: "7e1c591e544353bedaeba2fdca5309ff16dfe268"
-    config_file_path: "/tmp/config_file.txt
+    netbox_url: "{{ lookup('ansible.builtin.env', 'NETBOX_API') }}"
+    netbox_token: "{{ lookup('ansible.builtin.env', 'NETBOX_TOKEN') }}"
 
   tasks:
-    - name: Get device configurations from NetBox
-      uri:
-        url: https://mnqh6527.cloud.netboxapp.com/dcim/devices/
-        method: GET
-        headers:
-          Authorization: Token "{{ netbox_token }}"
-        return_content: yes
-      register: netbox_response
+
+  - name: "Query NetBox for all sites"
+    debug:
+      msg: >
+        "Device {{ item.value.name }} (ID: {{ item.key }}) was
+        manufactured by {{ item.value.device_type.manufacturer.name }}"
+    loop: "{{ query('netbox.netbox.nb_lookup', 'devices', api_filter='role=firewall', api_endpoint=netbox_url, token=netbox_token)}}"
