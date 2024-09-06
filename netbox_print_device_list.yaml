@@ -2,25 +2,13 @@
 - name: Playbook to interact with NetBox
   hosts: aap
   gather_facts: no
-    
-  tasks:
-    # query a list of devices
-    - name: Obtain list of devices from NetBox
-      debug:
-        msg: >
-          "Device {{ item.value.display_name }} (ID: {{ item.key }}) was
-          manufactured by {{ item.value.device_type.manufacturer.name }}"
-      loop: "{{ query('netbox.netbox.nb_lookup', 'devices',
-                      api_endpoint='https://mnqh6527.cloud.netboxapp.com/',
-                      token='7e1c591e544353bedaeba2fdca5309ff16dfe268') }}"
 
-      # This example uses an API Filter
-    - name: Obtain list of devices from NetBox
-      debug:
-        msg: >
-          "Device {{ item.value.display_name }} (ID: {{ item.key }}) was
-          manufactured by {{ item.value.device_type.manufacturer.name }}"
-      loop: "{{ query('netbox.netbox.nb_lookup', 'devices',
-                      api_endpoint='https://mnqh6527.cloud.netboxapp.com/',
-                      api_filter='role=management tag=Dell'),
-                      token='7e1c591e544353bedaeba2fdca5309ff16dfe268') }}"
+  tasks:
+  - name: Get device configurations from NetBox
+    uri:
+      url: "{{ netbox_url }}dcim/devices/"
+      method: GET
+      headers:
+        Authorization: "Token {{ netbox_token }}"
+      return_content: yes
+    register: netbox_response
