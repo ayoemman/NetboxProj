@@ -8,11 +8,11 @@
     config_file_path: "/tmp/config_file.txt
 
   tasks:
-  - name: Get device configurations from NetBox
-    uri:
-      url: "{{ netbox_url }}dcim/devices/"
-      method: GET
-      headers:
-        Authorization: "Token {{ netbox_token }}"
-      return_content: yes
-    register: netbox_response
+    - name: Get device configurations from NetBox
+      uri:
+        url: "{{ netbox_url }}dcim/devices/"
+        method: GET
+        headers:
+          Authorization: "Token {{ netbox_token }}"
+        return_content: yes
+      register: netbox_response
