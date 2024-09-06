@@ -6,9 +6,9 @@
   tasks:
   - name: Get device configurations from NetBox
     uri:
-      url: "{{ netbox_url }}dcim/devices/"
+      url: "{{ NETBOX_API }}dcim/devices/"
       method: GET
       headers:
-        Authorization: "Token {{ netbox_token }}"
+        Authorization: "Token {{ NETBOX_TOKEN }}"
       return_content: yes
     register: netbox_response
