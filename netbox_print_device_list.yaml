@@ -2,15 +2,8 @@
 - name: Playbook to interact with NetBox
   hosts: aap
   gather_facts: no
-  vars:
-    ansible_python_interpreter: /usr/bin/python3
     
   tasks:
-    - name: Install pynetbox if not already installed
-      pip:
-        name: pynetbox
-        state: present
-        
     # query a list of devices
     - name: Obtain list of devices from NetBox
       debug:
