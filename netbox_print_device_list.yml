@@ -36,6 +36,16 @@
       copy:
         src: "{{ config_file_path }}"
         dest: "/tmp/repo/config_file.txt"
+    
+    - name: Set Git user name
+      command: git config --global user.name "ayoemman"
+      args:
+        chdir: "/tmp/repo"
+
+    - name: Set Git user email
+      command: git config --global user.email "ayoemman006@gmail.com"
+      args:
+        chdir: "/tmp/repo"
 
     - name: Commit changes to repository
       command: git commit -am "Add configuration file"
