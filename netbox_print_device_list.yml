@@ -57,7 +57,7 @@
         chdir: "{{ repo_dest }}"
 
     - name: Push changes to GitHub
-      command: git push origin "{{ repo_branch }}"
+      command: git push -v origin "{{ repo_branch }}"
       args:
         chdir: "{{ repo_dest }}"
       environment:
