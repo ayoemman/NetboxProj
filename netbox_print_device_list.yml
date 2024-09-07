@@ -5,6 +5,9 @@
   vars:
     netbox_url: "https://mnqh6527.cloud.netboxapp.com/"
     netbox_token: "7e1c591e544353bedaeba2fdca5309ff16dfe268"
+    github_repo: "https://github.com/ayoemman/NetboxProj.git"
+    github_token: "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"
+    config_file_path: "/tmp/config_file.txt"
 
   tasks:
     - name: Get device configurations from NetBox
@@ -15,3 +18,33 @@
           Authorization: "Token {{ netbox_token }}"
         return_content: yes
       register: netbox_response
+
+    - name: Write configuration to local file
+      copy:
+        content: "{{ netbox_response.content }}"
+        dest: "{{ config_file_path }}"
+
+    - name: Clone GitHub repository
+      git:
+        repo: "{{ github_repo }}"
+        dest: "/tmp/repo"
+        version: master
+        force: yes
+      register: git_result
+
+    - name: Copy configuration file to repository
+      copy:
+        src: "{{ config_file_path }}"
+        dest: "/tmp/repo/config_file.txt"
+
+    - name: Commit changes to repository
+      command: git commit -am "Add configuration file"
+      args:
+        chdir: "/tmp/repo"
+
+    - name: Push changes to GitHub
+      command: git push origin master
+      args:
+        chdir: "/tmp/repo"
+      environment:
+        GIT_TOKEN: "{{ github_token }}"
