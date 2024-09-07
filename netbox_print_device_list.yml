@@ -6,7 +6,7 @@
     netbox_url: "https://mnqh6527.cloud.netboxapp.com/"
     netbox_token: "7e1c591e544353bedaeba2fdca5309ff16dfe268"
     github_repo: "https://github.com/ayoemman/NetboxProj.git"
-    github_token: "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"
+    github_token: "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"
     config_file_path: "/tmp/config_file.txt"
 
   tasks:
