@@ -8,6 +8,9 @@
     github_repo: "https://github.com/ayoemman/NetboxProj.git"
     github_token: "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"
     config_file_path: "/tmp/config_file.txt"
+    repo_dest: "/tmp/repo"
+    git_user_name: "ayoemman"
+    git_user_email: "ayoemman006@gmail.com"
 
   tasks:
     - name: Get device configurations from NetBox
@@ -27,7 +30,7 @@
     - name: Clone GitHub repository
       git:
         repo: "{{ github_repo }}"
-        dest: "/tmp/repo"
+        dest: "{{ repo_dest }}"
         version: main
         force: yes
       register: git_result
@@ -35,26 +38,26 @@
     - name: Copy configuration file to repository
       copy:
         src: "{{ config_file_path }}"
-        dest: "/tmp/repo/config_file.txt"
+        dest: "{{ repo_dest }}/config_file.txt"
     
     - name: Set Git user name
-      command: git config --global user.name "ayoemman"
+      command: git config --global user.name "{{ git_user_name }}"
       args:
-        chdir: "/tmp/repo"
+        chdir: "{{ repo_dest }}"
 
     - name: Set Git user email
-      command: git config --global user.email "ayoemman006@gmail.com"
+      command: git config --global user.email "{{ git_user_email }}"
       args:
-        chdir: "/tmp/repo"
+        chdir: "{{ repo_dest }}"
 
     - name: Commit changes to repository
       command: git commit -am "Add configuration file"
       args:
-        chdir: "/tmp/repo"
+        chdir: "{{ repo_dest }}"
 
     - name: Push changes to GitHub
       command: git push origin master
       args:
-        chdir: "/tmp/repo"
+        chdir: "{{ repo_dest }}"
       environment:
         GIT_TOKEN: "{{ github_token }}"
