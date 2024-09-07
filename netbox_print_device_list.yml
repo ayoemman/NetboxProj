@@ -3,8 +3,8 @@
   hosts: localhost
   gather_facts: no
   vars:
-    netbox_url: "{{ lookup('ansible.builtin.env', 'NETBOX_API') }}"
-    netbox_token: "{{ lookup('ansible.builtin.env', 'NETBOX_TOKEN') }}"
+    netbox_url: "https://mnqh6527.cloud.netboxapp.com"
+    netbox_token: "7e1c591e544353bedaeba2fdca5309ff16dfe268"
 
   tasks:
     - name: Get device configurations from NetBox
