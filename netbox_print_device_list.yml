@@ -7,6 +7,7 @@
     netbox_token: "7e1c591e544353bedaeba2fdca5309ff16dfe268"
     github_repo: "https://github.com/ayoemman/NetboxProj.git"
     github_token: "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"
+    repo_branch: "main"
     config_file_path: "/tmp/config_file.txt"
     repo_dest: "/tmp/repo"
     git_user_name: "ayoemman"
@@ -31,7 +32,7 @@
       git:
         repo: "{{ github_repo }}"
         dest: "{{ repo_dest }}"
-        version: main
+        version: "{{ repo_branch }}"
         force: yes
       register: git_result
 
@@ -56,7 +57,7 @@
         chdir: "{{ repo_dest }}"
 
     - name: Push changes to GitHub
-      command: git push origin master
+      command: git push origin "{{ repo_branch }}"
       args:
         chdir: "{{ repo_dest }}"
       environment:
