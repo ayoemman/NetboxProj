@@ -28,7 +28,7 @@
       git:
         repo: "{{ github_repo }}"
         dest: "/tmp/repo"
-        version: master
+        version: main
         force: yes
       register: git_result
 
