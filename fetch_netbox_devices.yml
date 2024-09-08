@@ -11,7 +11,7 @@
   tasks:
     - name: Fetch devices from NetBox
       uri:
-        url: "{{ netbox_url }}/api/dcim/devices/"
+        url: "{{ netbox_url }}api/dcim/devices/"
         method: GET
         headers:
           Authorization: "Token {{ netbox_token }}"
