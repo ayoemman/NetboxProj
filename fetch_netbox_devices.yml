@@ -25,7 +25,7 @@
 
     - name: Convert NetBox devices JSON to HTML
       template:
-        src: Templates/netbox_devices.html.j2
+        src: templates/netbox_devices.html.j2
         dest: "{{ output_file }}"
       vars:
         devices: "{{ netbox_response.json.results }}"
