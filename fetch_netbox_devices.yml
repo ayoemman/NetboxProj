@@ -14,20 +14,28 @@
         path: /home/user1/reports
         state: directory
         mode: '0755'
-        
+
     - name: Fetch devices from NetBox
       uri:
-        url: "{{ netbox_url }}api/dcim/devices/"
+        url: "{{ netbox_url }}/api/dcim/devices/"
         method: GET
         headers:
           Authorization: "Token {{ netbox_token }}"
         return_content: yes
       register: netbox_response
 
+    - name: Debug NetBox devices response
+      debug:
+        var: netbox_response.json.results
+
     - name: Save NetBox devices to a JSON file
       copy:
         content: "{{ netbox_response.content }}"
         dest: "/tmp/netbox_devices.json"
+
+    - name: Debug the devices variable before template
+      debug:
+        var: netbox_response.json.results
 
     - name: Convert NetBox devices JSON to HTML
       template:
