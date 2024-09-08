@@ -3,10 +3,10 @@
   hosts: localhost
   gather_facts: no
   vars:
-    netbox_url: "https://mnqh6527.cloud.netboxapp.com/"
-    netbox_token: "7e1c591e544353bedaeba2fdca5309ff16dfe268"
+    netbox_url: "{{ lookup('env', 'NETBOX_URL') }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') }}"
     github_repo: "https://github.com/ayoemman/NetboxProj.git"
-    github_token: "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"
+    github_token: "{{ lookup('env', 'GIT_TOKEN') }}"
     repo_branch: "main"
     config_file_path: "/tmp/config_file.txt"
     repo_dest: "/tmp/repo"
