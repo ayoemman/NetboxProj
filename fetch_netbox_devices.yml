@@ -9,6 +9,12 @@
     output_file: "/home/user1/reports/devices.html"
 
   tasks:
+    - name: Ensure the /home/user1/reports directory exists
+      file:
+        path: /home/user1/reports
+        state: directory
+        mode: '0755'
+        
     - name: Fetch devices from NetBox
       uri:
         url: "{{ netbox_url }}api/dcim/devices/"
