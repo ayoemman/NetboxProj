@@ -1,0 +1,31 @@
+---
+- name: Fetch devices from NetBox and save to local HTML file
+  hosts: localhost
+  gather_facts: no
+
+  vars:
+    netbox_url: "{{ lookup('env', 'NETBOX_URL') }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') }}"
+    output_file: "~/reports/devices.html"
+
+  tasks:
+    - name: Fetch devices from NetBox
+      uri:
+        url: "{{ netbox_url }}/api/dcim/devices/"
+        method: GET
+        headers:
+          Authorization: "Token {{ netbox_token }}"
+        return_content: yes
+      register: netbox_response
+
+    - name: Save NetBox devices to a JSON file
+      copy:
+        content: "{{ netbox_response.content }}"
+        dest: "/tmp/netbox_devices.json"
+
+    - name: Convert NetBox devices JSON to HTML
+      template:
+        src: templates/netbox_devices.html.j2
+        dest: "{{ output_file }}"
+      vars:
+        devices: "{{ netbox_response.json.results }}"
