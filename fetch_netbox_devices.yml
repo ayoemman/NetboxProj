@@ -4,7 +4,7 @@
   gather_facts: no
 
   vars:
-    netbox_url: "https://mnqh6527.cloud.netboxapp.com/"
+    netbox_url: "https://mnqh6527.cloud.netboxapp.com"
     netbox_token: "7e1c591e544353bedaeba2fdca5309ff16dfe268"
     output_file: "/home/user1/netbox_report/devices.html"
 
