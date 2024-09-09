@@ -9,6 +9,22 @@
     output_file: "/home/user1/netbox_report/devices.html"
 
   tasks:
+    - name: Print the current user
+      command: whoami
+      register: whoami_output
+
+    - name: Print the current user output
+      debug:
+        var: whoami_output.stdout
+
+    - name: Print the current working directory
+      command: pwd
+      register: pwd_output
+
+    - name: Print the current working directory output
+      debug:
+        var: pwd_output.stdout
+
     - name: Ensure the /home/netbox_report/report directory exists
       file:
         path: /home/user1/netbox_report
