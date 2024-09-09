@@ -6,12 +6,12 @@
   vars:
     netbox_url: "https://mnqh6527.cloud.netboxapp.com/"
     netbox_token: "7e1c591e544353bedaeba2fdca5309ff16dfe268"
-    output_file: "/home/user1/report/devices.html"
+    output_file: "/home/user1/netbox_report/devices.html"
 
   tasks:
-    - name: Ensure the /home/user1/report directory exists
+    - name: Ensure the /home/netbox_report/report directory exists
       file:
-        path: /home/user1/report
+        path: /home/user1/netbox_report
         state: directory
         mode: '0755'
 
