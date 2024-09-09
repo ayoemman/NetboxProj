@@ -59,3 +59,17 @@
         dest: "{{ output_file }}"
       vars:
         devices: "{{ netbox_response.json.results }}"
+        register: template_result
+
+    - name: Debug the result of converting JSON to HTML
+      debug:
+        var: template_result
+
+    - name: Check if HTML file exists
+      stat:
+        path: "{{ output_file }}"
+      register: html_file_stat
+
+    - name: Debug the result of HTML file existence check
+      debug:
+        var: html_file_stat
